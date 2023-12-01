@@ -30,11 +30,12 @@ ArgParser buildParser() {
     );
 }
 
-Future solveProblem (String? problemNumber) async {
-  var result = "Result ${problemNumber}!";
+Future solveProblem (String? problemNumber, List<String> additionalArgs) async {
+  var result = "ERROR: solver never run!";
+  print(additionalArgs);
   switch (problemNumber){
     case '1':
-      result = await prob1.solve();
+      result = await prob1.solve(additionalArgs);
     case '2':
     case '3':
     case '4':
@@ -90,13 +91,7 @@ void main(List<String> arguments) async {
       verbose = true;
     }
     
-    await solveProblem(results['problemToSolve']);
-    // Act on the arguments provided.
-    /* print('Positional arguments: ${results.rest}');
-    if (verbose) {
-      print('[VERBOSE] All arguments: ${results.arguments}');
-    }
-    */
+    await solveProblem(results['problemToSolve'], results.rest);
 
   } on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.

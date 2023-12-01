@@ -23,19 +23,18 @@ ArgParser buildParser() {
       help: 'Print the tool version.',
     )
     ..addOption(
-      'solveProblem',
+      'problemToSolve',
       abbr: 'p',
       mandatory: true,
-      allowed: ['1'],
-      callback: solveProblem
+      allowed: ['1']
     );
 }
 
-void solveProblem (String? problemNumber){
+Future solveProblem (String? problemNumber) async {
   var result = "Result ${problemNumber}!";
   switch (problemNumber){
     case '1':
-      result = prob1.solve();
+      result = await prob1.solve();
     case '2':
     case '3':
     case '4':
@@ -72,7 +71,7 @@ void printUsage(ArgParser argParser) {
   print(argParser.usage);
 }
 
-void main(List<String> arguments) {
+void main(List<String> arguments) async {
   final ArgParser argParser = buildParser();
   try {
     final ArgResults results = argParser.parse(arguments);
@@ -90,7 +89,8 @@ void main(List<String> arguments) {
     if (results.wasParsed('verbose')) {
       verbose = true;
     }
-
+    
+    await solveProblem(results['problemToSolve']);
     // Act on the arguments provided.
     /* print('Positional arguments: ${results.rest}');
     if (verbose) {

@@ -1,3 +1,3 @@
-String solve(){
-    return "Solved!";
+Future<String> solve(){
+    return Future.value("Solved!");
 }

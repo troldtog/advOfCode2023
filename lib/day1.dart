@@ -35,7 +35,6 @@ Future<String> solve(String inputPath, String searchPattern) async{
 
     await for (final line in lines){
         final (firstMatch, lastMatch) = findDigits(line, digitPattern);
-        print(line + " " + firstMatch.toString() + " " +lastMatch.toString());
         tensPlaceTotal += firstMatch;
         onesPlaceTotal += lastMatch;
     }
@@ -52,8 +51,19 @@ Future<String> solve(String inputPath, String searchPattern) async{
   // first [index] gets the match from a collection. 
   // second [index] gets the whole Match, but would be nice if there were a property for this.
   final firstMatch = allMatches[0][0];
-  final lastMatch = allMatches[allMatches.length -1][0];
+  final purportedLastMatch = allMatches[allMatches.length -1];
+  final lastMatch = correctLastMatch(inputLine, digitPattern, purportedLastMatch);
   return (convertStringToDigit(firstMatch), convertStringToDigit(lastMatch));
+}
+
+String correctLastMatch(String input, RegExp digitPattern, RegExpMatch purportedLastMatch){
+    final clippedInput = input.substring(purportedLastMatch.start+1, input.length);
+    if (digitPattern.hasMatch(clippedInput)){
+      return correctLastMatch(clippedInput, digitPattern, digitPattern.firstMatch(clippedInput)!);
+    }
+
+    return purportedLastMatch[0]!;
+
 }
 
 int convertStringToDigit(String? number){

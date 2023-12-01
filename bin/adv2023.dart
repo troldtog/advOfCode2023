@@ -26,43 +26,43 @@ ArgParser buildParser() {
       'problemToSolve',
       abbr: 'p',
       mandatory: true,
-      allowed: ["1", "2",],
     );
 }
 
 Future solveProblem (String? problemNumber, List<String> additionalArgs) async {
   var result = "ERROR: solver never run!";
-  print(additionalArgs);
   switch (problemNumber){
-    case '1':
+    case "1":
       result = await day1.solvePart1(additionalArgs);
-    case '2':
+    case "2":
           result = await day1.solvePart2(additionalArgs);
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-    case '10':
-    case '11':
-    case '12':
-    case '13':
-    case '14':
-    case '15':
-    case '16':
-    case '17':
-    case '18':
-    case '19':
-    case '20':
-    case '21':
-    case '22':
-    case '23':
-    case '24':
-    case '25':
+    case "3":
+    case "4":
+    case "5":
+    case "6":
+    case "7":
+    case "8":
+    case "9":
+    case "10":
+    case "11":
+    case "12":
+    case "13":
+    case "14":
+    case "15":
+    case "16":
+    case "17":
+    case "18":
+    case "19":
+    case "20":
+    case "21":
+    case "22":
+    case "23":
+    case "24":
+    case "25":
     default:
-      // already covered by allowed above, but you can't tell solveProblem its argument is non-nullable.
+      // WOULD BE NICE IF WE COULD VALIDATE THIS AS AN OPTION BUT WE CANNOT FOR SOME REASON?
+      // I.E., allowed ["1","2"] recognizes problemToSolve=1 but errors on problemToSolve=2
+      //It is late so that may be something to figure out on day 2
       throw FormatException('Invalid problem number. Problems are numbered 1 through 25.');
   }
   print(result);

@@ -37,12 +37,9 @@ Future<String> solve(String inputPath, List<({String color, int invalidThreshold
 }
 
 bool isGameInvalid(String id, String input, List<({String color, int invalidThreshold, RegExp cubePattern})> forbiddenCubes){
-  print(id);
   for (final forbiddenCube in forbiddenCubes){
-    print("  "+forbiddenCube.color);
     for (final cubeMatch in forbiddenCube.cubePattern.allMatches(input)){
       final cubeCount = int.parse(cubeMatch.namedGroup(forbiddenCube.color) ?? "0");
-      print("    "+cubeCount.toString());
       if (forbiddenCube.invalidThreshold < cubeCount){
         return true;
       }

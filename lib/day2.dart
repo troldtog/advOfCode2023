@@ -15,11 +15,7 @@ Future<String> solvePart1(List<String> additionalArgs) async{
     (color: "red",   invalidThreshold:  12, cubePattern: RegExp(r'(?<red>\d+) red')),
     (color: "blue",  invalidThreshold:  14, cubePattern: RegExp(r'(?<blue>\d+) blue')),
     (color: "green", invalidThreshold:  13, cubePattern: RegExp(r'(?<green>\d+) green'))];
-    var result = await solve(inputPath, forbiddenCubes);
-    return result;
-}
-
-Future<String> solve(String inputPath, List<({String color, int invalidThreshold, RegExp cubePattern})> forbiddenCubes) async{
+    
     final lines = readInputFile(inputPath);
     int validGameTotal = 0;
 

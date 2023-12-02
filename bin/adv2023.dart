@@ -39,6 +39,7 @@ Future solveProblem (String? problemNumber, List<String> additionalArgs) async {
     case "3":
           result = await day2.solvePart1(additionalArgs);
     case "4":
+          result = await day2.solvePart2(additionalArgs);
     case "5":
     case "6":
     case "7":

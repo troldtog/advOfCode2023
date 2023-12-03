@@ -1,6 +1,7 @@
 import 'package:args/args.dart';
 import 'package:adv2023/day1.dart' as day1;
 import 'package:adv2023/day2.dart' as day2;
+import 'package:adv2023/day3.dart' as day3;
 const String version = '0.0.1';
 
 ArgParser buildParser() {
@@ -41,7 +42,9 @@ Future solveProblem (String? problemNumber, List<String> additionalArgs) async {
     case "4":
           result = await day2.solvePart2(additionalArgs);
     case "5":
+          result = await day3.solvePart1(additionalArgs);
     case "6":
+          result = await day3.solvePart2(additionalArgs);
     case "7":
     case "8":
     case "9":

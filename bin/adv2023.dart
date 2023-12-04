@@ -49,6 +49,7 @@ Future solveProblem (String? problemNumber, List<String> additionalArgs) async {
     case "7":
           result = await day4.solvePart1(additionalArgs);
     case "8":
+          result = await day4.solvePart2(additionalArgs);
     case "9":
     case "10":
     case "11":
@@ -124,12 +125,13 @@ void main(List<String> arguments) async {
     if (results.wasParsed('verbose')) {
       verbose = true;
     }
-    
+
     await solveProblem(results['problemToSolve'], results.rest);
 
   } on FormatException catch (e) {
     // Print usage information if an invalid argument was provided.
     print(e.message);
+    print(e.source);
     print('');
     printUsage(argParser);
   }

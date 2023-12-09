@@ -1,4 +1,4 @@
-import 'util/fileIo.dart' show readFileLineByLine;
+import 'util/file.dart' show readFileLineByLine;
 RegExp integer = RegExp(r'-?\d+');
 
 Future<String> solvePart1(List<String> arguments) async => solve(arguments[0]);
@@ -13,15 +13,15 @@ Future<String> solve(String filePath, [int? next_x = null]) async{
   return total.toString();
 }
 
-// uses lagrange interpolation to find the next value in the sequence
-int interpolateNext (List<int> points, [int? x = null]){
-   int next_x = x ?? points.length;
+// Lagrange interpolation. Points: The values to interpolate, n: which term in the sequence to produce.
+int interpolateNext (List<int> points, [int? n = null]){
+   int next_n = n ?? points.length;
    num next_y = 0;
    for (int lagrange_index = 0; lagrange_index < points.length; lagrange_index++){
      num sub_result = points[lagrange_index];
      for(int i = 0; i < points.length; i++){
        if (lagrange_index == i) continue;
-       sub_result *= ((next_x - i)/(lagrange_index - i));
+       sub_result *= ((next_n - i)/(lagrange_index - i));
      }
      next_y += sub_result;
    }

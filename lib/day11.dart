@@ -21,6 +21,7 @@ Future<String> solve(String fileName, int expansionFactor) async{
   return (calculateDistance(adjustedRowCounts) + calculateDistance(adjustedColumnCounts)).toString();
 }
 
+// batch calculates the vertical (resp. horizontal) distance between galaxies, grouping them by row (resp. column)
 int calculateDistance(Map<int, int> rowCounts){
   int totalRowDistance = 0;
   for (final i in rowCounts.keys){
@@ -32,8 +33,9 @@ int calculateDistance(Map<int, int> rowCounts){
   return totalRowDistance;
 }
 
+// produces a new map from columnCounts with the same values, but with keys that account for the expanding universe.
 Map<int, int> reindexColumnCounts(Map<int, int> columnCounts, int expansionFactor){
-  // there's got to be a cleaner way to do this with Map.from(columnCounts.[transformKeys], columnCounts.values)
+  // there's got to be a cleaner way to do this with Map.from
   var sortedColumns = columnCounts.keys.toList();
   sortedColumns.sort();
   Map<int, int> result = {};

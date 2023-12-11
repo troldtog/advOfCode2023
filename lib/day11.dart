@@ -1,16 +1,16 @@
 import 'util/file.dart' show readFileLineByLine;
-RegExp integer = RegExp(r'-?\d+');
 
-// distance between (a,b) and (c,d) is (d-b + c-a)
-// can avoid negatives by walking them the same order you've found them in the file.
-Future<String> solvePart1(List<String> arguments) async{
+Future<String> solvePart1(List<String> arguments) async => await solve(arguments[0], 2);
+Future<String> solvePart2(List<String> arguments) async => await solve(arguments[0], 1000000);
+
+Future<String> solve(String fileName, int expansionFactor) async{
   Map<int, int> columnCounts = {};
   Map<int, int> rowCounts = {};
   int row = 0;
-  await for (final line in readFileLineByLine(arguments[0])){
+  await for (final line in readFileLineByLine(fileName)){
     final colIndices = "#".allMatches(line);
     if(colIndices.isEmpty){
-      row++;        
+      row+= (expansionFactor - 1);        
     }else{
       rowCounts[row] = colIndices.length;
       colIndices.map((m) => m.start).forEach((i) => columnCounts[i] = (columnCounts[i] ?? 0) + 1);
@@ -18,39 +18,28 @@ Future<String> solvePart1(List<String> arguments) async{
     row++;
   }
 
-  final adjustedColumns = adjustColumns(columnCounts.keys);
-
-  return solveActualProblem(rowCounts, columnCounts, adjustedColumns).toString();
+  final adjustedColumnCounts = adjustColumnCounts(columnCounts, expansionFactor);
+  return (calculateDistance(rowCounts) + calculateDistance(adjustedColumnCounts)).toString();
 }
 
-Future<String> solvePart2(List<String> arguments) async{
-  return "7";
-}
-
-int solveActualProblem(Map<int, int> rowCounts, Map<int, int> columnCounts, Map<int, int> adjustedColumns){
-  int allDistance = 0;
+int calculateDistance(Map<int, int> rowCounts){
+  int totalRowDistance = 0;
   for (final i in rowCounts.keys){
     for (final j in rowCounts.keys.where((key) => key < i)){
-      allDistance += rowCounts[i]!*rowCounts[j]!*(i-j);
+      totalRowDistance += rowCounts[i]!*rowCounts[j]!*(i-j);
     }
   }
 
-  for (final i in columnCounts.keys){
-    for (final j in columnCounts.keys.where((key) => key < i)){
-      allDistance += columnCounts[i]!*columnCounts[j]!*(adjustedColumns[i]!-adjustedColumns[j]!);
-    }
-  }
-
-  return allDistance;
+  return totalRowDistance;
 }
 
-Map<int, int> adjustColumns(Iterable<int> nonEmptyColumns){
-  var sortedColumns = nonEmptyColumns.toList();
+Map<int, int> adjustColumnCounts(Map<int, int> columnCounts, int expansionFactor){
+  // there's got to be a cleaner way to do this with Map.from(columnCounts.[transformKeys], columnCounts.values)
+  var sortedColumns = columnCounts.keys.toList();
   sortedColumns.sort();
   Map<int, int> result = {};
   for (int i = 0; i < sortedColumns.length; i++){
-    result[sortedColumns[i]] = sortedColumns[i] + (sortedColumns[i] - i);
+    result[sortedColumns[i] + (sortedColumns[i] - i)*(expansionFactor - 1)] = columnCounts[sortedColumns[i]]!;
   }
   return result;
 }
-

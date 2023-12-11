@@ -1,4 +1,4 @@
-import 'util/fileIo.dart' show readFileLineByLine;
+import 'util/file.dart' show readFileLineByLine;
 import 'package:collection/collection.dart' show IterableZip;
 import 'dart:math' show sqrt, pow;
 

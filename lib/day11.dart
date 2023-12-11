@@ -9,13 +9,11 @@ Future<String> solve(String fileName, int expansionFactor) async{
   int row = 0;
   await for (final line in readFileLineByLine(fileName)){
     final colIndices = "#".allMatches(line);
-    if(colIndices.isEmpty){
-      row+= (expansionFactor - 1);        
-    }else{
+    if(colIndices.isNotEmpty){
       rowCounts[row] = colIndices.length;
       colIndices.map((m) => m.start).forEach((i) => columnCounts[i] = (columnCounts[i] ?? 0) + 1);
     }
-    row++;
+    row+= colIndices.isEmpty ? expansionFactor : 1;
   }
 
   final adjustedColumnCounts = adjustColumnCounts(columnCounts, expansionFactor);

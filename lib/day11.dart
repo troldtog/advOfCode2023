@@ -13,11 +13,12 @@ Future<String> solve(String fileName, int expansionFactor) async{
       rowCounts[row] = colIndices.length;
       colIndices.map((m) => m.start).forEach((i) => columnCounts[i] = (columnCounts[i] ?? 0) + 1);
     }
-    row+= colIndices.isEmpty ? expansionFactor : 1;
+    row++;
   }
 
-  final adjustedColumnCounts = adjustColumnCounts(columnCounts, expansionFactor);
-  return (calculateDistance(rowCounts) + calculateDistance(adjustedColumnCounts)).toString();
+  final adjustedRowCounts = reindexColumnCounts(rowCounts, expansionFactor);
+  final adjustedColumnCounts = reindexColumnCounts(columnCounts, expansionFactor);
+  return (calculateDistance(adjustedRowCounts) + calculateDistance(adjustedColumnCounts)).toString();
 }
 
 int calculateDistance(Map<int, int> rowCounts){
@@ -31,7 +32,7 @@ int calculateDistance(Map<int, int> rowCounts){
   return totalRowDistance;
 }
 
-Map<int, int> adjustColumnCounts(Map<int, int> columnCounts, int expansionFactor){
+Map<int, int> reindexColumnCounts(Map<int, int> columnCounts, int expansionFactor){
   // there's got to be a cleaner way to do this with Map.from(columnCounts.[transformKeys], columnCounts.values)
   var sortedColumns = columnCounts.keys.toList();
   sortedColumns.sort();
